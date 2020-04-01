@@ -1,0 +1,22 @@
+#Ingress Service
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: backend-ingress
+  namespace: gowebapp
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: 'true'
+spec:
+  rules:
+  - host: gowebapp.prod.csye6225-su19-baruam.me
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: back-end
+          servicePort: 8000
+  tls:
+  - hosts:
+    - TEST_DOMAIN
+    secretName: backend-tls-cert
