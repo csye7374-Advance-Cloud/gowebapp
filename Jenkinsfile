@@ -57,7 +57,7 @@ node {
 	    sh "yq w -i ./k8s/secret.yaml 'data.[.dockerconfigjson]' ${env.dockerconfigjson}"
 	    sh "yq w -i ./k8s/ingress.yaml 'spec.rules[0].host' ${env.domain}"
             sh "yq w -i ./k8s/ingress.yaml 'spec.tls[0].hosts[0]' ${env.domain}" 	
-            withKubeConfig([credentialsId: kubernetesCredentials, serverUrl: "${env.ServerUrl}"]) 
+            withKubeConfig([credentialsId: kubernetesCredentials, serverUrl: "${env.ServerUrl}"]) {
        	    sh "kubectl apply -f k8s/config.yaml"
 	    sh "kubectl apply -f k8s/secret.yaml"
 	    sh "kubectl apply -f k8s/ingress.yaml"	
