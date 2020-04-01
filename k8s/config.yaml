@@ -1,0 +1,25 @@
+---
+#Creating Name Space
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gowebapp
+
+---
+
+#Creating Load Balancer Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-end
+  namespace: gowebapp
+  labels:
+    app: webapp
+spec:
+  selector:
+    tier: backend
+  ports:
+    - port: 8000
+
+---
+
