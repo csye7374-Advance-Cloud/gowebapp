@@ -1,0 +1,43 @@
+#Replica set to deploy docker image
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: gowebapp
+  labels:
+    app: webapp
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: backend
+  template:
+    metadata:
+      labels:
+        tier: backend
+    spec:
+      containers:
+      - name: private-reg-container
+        image: baruamayank92/gowebapp:f4f943ee58a761fed47c7efe60ed44a5dfb2a6db
+        ports:
+        - containerPort: 8000
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        resources:
+          requests:
+            memory: "250Mi"
+          limits:
+            memory: "500Mi"
+      imagePullSecrets:
+      - name: regcred
